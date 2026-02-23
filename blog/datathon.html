@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMU Datathon 2026 – Samantha C. Lai</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="site-logo">Samantha C. Lai</a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="../projects.html">PROJECTS</a></li>
+          <li><a href="../blogs.html">BLOGS</a></li>
+          <li><a href="../about.html">ABOUT</a></li>
+          <li><a href="../index.html#contact">CONTACT</a></li>
+        </ul>
+      </nav>
+      <button class="mobile-menu-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="project-page">
+    <article class="project-article">
+      <header class="project-header">
+        <h1>CMU Datathon 2026</h1>
+        <div class="project-meta">
+          <time datetime="2026-02-15">February 15, 2026</time>
+          <span class="meta-dot">•</span>
+        </div>
+      </header>
+
+      <section class="project-section">
+        <h3>Analyzing critical challenges in global aid distribution.</h3>
+        <p>Sourced directly from UN humanitarian teams. This Datathon tackles two core problems: Targeting Validation, building models to benchmark budget-to-beneficiary ratios and flag anomalies in project efficiency; and Geo-Insight Challenge, mapping the "funding gap" by identifying geographic regions where humanitarian needs outweigh current pooled fund coverage.</p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">Samantha C. Lai</span>
+      </div>
+      <nav class="footer-nav">
+        <ul>
+          <li><a href="../projects.html">Projects</a></li>
+          <li><a href="../blogs.html">Blogs</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/occasions.places" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://500px.com/p/occasionsplaces?view=photos" target="_blank" rel="noopener">500px</a>
+      </div>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+      document.querySelector('.main-nav').classList.toggle('open');
+      this.classList.toggle('active');
+    });
+  </script>
+
+</body>
+</html>

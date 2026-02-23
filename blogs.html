@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blogs – Samantha C. Lai</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">Samantha C. Lai</a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="projects.html">PROJECTS</a></li>
+          <li><a href="blogs.html" class="nav-active">BLOGS</a></li>
+          <li><a href="about.html">ABOUT</a></li>
+          <li><a href="index.html#contact">CONTACT</a></li>
+        </ul>
+      </nav>
+      <button class="mobile-menu-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="listing-page">
+    <div class="listing-header">
+      <h1>Blogs</h1>
+    </div>
+
+    <div class="case-studies-grid">
+
+      <a href="blog/anamnesis.html" class="case-card">
+        <div class="case-card-image">
+          <img src="image/DSCF3048.JPEG" alt="Anamnesis study">
+          <span class="case-label">ONGOING USER STUDY</span>
+        </div>
+        <div class="case-card-body">
+          <h3>ANAMNESIS: EXPLORING ATTENTION STATES AND NARRATIVE ENGAGEMENT</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec congue lorem ut volutpat efficitur. Fusce justo magna, condimentum nec elementum sed, sollicitudin vitae enim. Vivamus sit amet metus porttitor, rhoncus nibh et, venenatis turpis. Etiam lobortis semper ante, quis luctus lacus tincidunt vel.</p>
+          <span class="read-more">Read more</span>
+        </div>
+      </a>
+
+      <a href="blog/datathon.html" class="case-card">
+        <div class="case-card-image">
+          <img src="image/DSCF3066.JPEG" alt="CMU Datathon">
+          <span class="case-label">CMU DATATHON 2026</span>
+        </div>
+        <div class="case-card-body">
+          <h3>Analyzing critical challenges in global aid distribution.</h3>
+          <p>Sourced directly from UN humanitarian teams. This Datathon tackles two core problems: Targeting Validation, building models to benchmark budget-to-beneficiary ratios and flag anomalies in project efficiency; and Geo-Insight Challenge, mapping the "funding gap" by identifying geographic regions where humanitarian needs outweigh current pooled fund coverage.</p>
+          <span class="read-more">Read more</span>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">Samantha C. Lai</span>
+      </div>
+      <nav class="footer-nav">
+        <ul>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="blogs.html">Blogs</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/occasions.places" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://500px.com/p/occasionsplaces?view=photos" target="_blank" rel="noopener">500px</a>
+      </div>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+      document.querySelector('.main-nav').classList.toggle('open');
+      this.classList.toggle('active');
+    });
+  </script>
+
+</body>
+</html>
