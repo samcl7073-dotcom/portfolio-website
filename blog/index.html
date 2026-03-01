@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog – Samantha C. Lai</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="site-logo">Samantha C. Lai</a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="../projects.html">PROJECTS</a></li>
+          <li><a href="../blogs.html">BLOGS</a></li>
+          <li><a href="../about.html">ABOUT</a></li>
+          <li><a href="../contact.html">CONTACT</a></li>
+        </ul>
+      </nav>
+      <button class="mobile-menu-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="project-page">
+    <article class="project-article" id="blog-content">
+      <p class="loading-text">Loading blog post...</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">Samantha C. Lai</span>
+      </div>
+      <nav class="footer-nav">
+        <ul>
+          <li><a href="../projects.html">Projects</a></li>
+          <li><a href="../blogs.html">Blogs</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/occasions.places" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://500px.com/p/occasionsplaces?view=photos" target="_blank" rel="noopener">500px</a>
+      </div>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../api.js"></script>
+  <script>
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+      document.querySelector('.main-nav').classList.toggle('open');
+      this.classList.toggle('active');
+    });
+
+    var slug = getSlugParam();
+    if (!slug) {
+      document.getElementById('blog-content').innerHTML = '<p>No blog post specified.</p>';
+    } else {
+      getBlogBySlug(slug).then(function(results) {
+        if (!results.length) {
+          document.getElementById('blog-content').innerHTML = '<p>Blog post not found.</p>';
+          return;
+        }
+        var blog = results[0];
+        document.title = blog.title.rendered + ' – Samantha C. Lai';
+
+        var categories = getCategoryNames(blog);
+        var date = formatDate(blog.date);
+
+        var html = '<header class="project-header">' +
+          '<h1>' + blog.title.rendered + '</h1>' +
+          '<div class="project-meta">' +
+            '<time>' + date + '</time>' +
+            '<span class="meta-dot">•</span>' +
+          '</div>' +
+        '</header>';
+
+        if (blog.content.rendered.trim()) {
+          html += '<div class="project-body">' + blog.content.rendered + '</div>';
+        } else if (blog.excerpt.rendered.trim()) {
+          html += '<p class="project-intro">' + stripHtml(blog.excerpt.rendered) + '</p>';
+        }
+
+        if (categories.length) {
+          html += '<div class="category-tags">' +
+            categories.map(function(c) { return '<a href="#">' + c + '</a>'; }).join('') +
+          '</div>';
+        }
+
+        document.getElementById('blog-content').innerHTML = html;
+      }).catch(function() {
+        document.getElementById('blog-content').innerHTML = '<p>Could not load blog post.</p>';
+      });
+    }
+  </script>
+
+</body>
+</html>

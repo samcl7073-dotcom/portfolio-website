@@ -16,7 +16,7 @@
           <li><a href="projects.html">PROJECTS</a></li>
           <li><a href="blogs.html">BLOGS</a></li>
           <li><a href="about.html" class="nav-active">ABOUT</a></li>
-          <li><a href="index.html#contact">CONTACT</a></li>
+          <li><a href="contact.html">CONTACT</a></li>
         </ul>
       </nav>
       <button class="mobile-menu-btn" aria-label="Menu">
@@ -26,12 +26,9 @@
   </header>
 
   <main class="content-page">
-    <article class="content-article">
+    <article class="content-article" id="about-content">
       <h1>About Me</h1>
-
-      <p>Hi, I'm Samantha. I'm a UX researcher and interactive systems designer with a background in narrative-driven media. Trained in the Master of Entertainment Technology program at Carnegie Mellon University, I approach interactive products as systems shaped by human behavior, motivation, and context.</p>
-
-      <p>My foundation in filmmaking and narrative design informs how I frame research questions, interpret user behavior, and communicate insights to cross-functional teams. I'm particularly interested in games and emerging technologies, where storytelling, system design, and user experience intersect at scale.</p>
+      <p class="loading-text">Loading...</p>
     </article>
   </main>
 
@@ -45,7 +42,7 @@
           <li><a href="projects.html">Projects</a></li>
           <li><a href="blogs.html">Blogs</a></li>
           <li><a href="about.html">About</a></li>
-          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
       <div class="footer-social">
@@ -59,10 +56,18 @@
     </div>
   </footer>
 
+  <script src="api.js"></script>
   <script>
     document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
       document.querySelector('.main-nav').classList.toggle('open');
       this.classList.toggle('active');
+    });
+
+    getPage(2).then(function(page) {
+      var el = document.getElementById('about-content');
+      el.innerHTML = '<h1>' + page.title.rendered + '</h1>' + page.content.rendered;
+    }).catch(function() {
+      document.getElementById('about-content').innerHTML = '<h1>About Me</h1><p>Could not load content.</p>';
     });
   </script>
 

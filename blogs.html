@@ -16,7 +16,7 @@
           <li><a href="projects.html">PROJECTS</a></li>
           <li><a href="blogs.html" class="nav-active">BLOGS</a></li>
           <li><a href="about.html">ABOUT</a></li>
-          <li><a href="index.html#contact">CONTACT</a></li>
+          <li><a href="contact.html">CONTACT</a></li>
         </ul>
       </nav>
       <button class="mobile-menu-btn" aria-label="Menu">
@@ -29,33 +29,8 @@
     <div class="listing-header">
       <h1>Blogs</h1>
     </div>
-
-    <div class="case-studies-grid">
-
-      <a href="blog/anamnesis.html" class="case-card">
-        <div class="case-card-image">
-          <img src="image/DSCF3048.JPEG" alt="Anamnesis study">
-        </div>
-        <div class="case-card-body">
-          <span class="case-eyebrow">ONGOING USER STUDY</span>
-          <h3>Anamnesis: Exploring Attention States and Narrative Engagement</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec congue lorem ut volutpat efficitur. Fusce justo magna, condimentum nec elementum sed, sollicitudin vitae enim. Vivamus sit amet metus porttitor, rhoncus nibh et, venenatis turpis. Etiam lobortis semper ante, quis luctus lacus tincidunt vel.</p>
-          <span class="read-more">Read more</span>
-        </div>
-      </a>
-
-      <a href="blog/datathon.html" class="case-card">
-        <div class="case-card-image">
-          <img src="image/DSCF3066.JPEG" alt="CMU Datathon">
-        </div>
-        <div class="case-card-body">
-          <span class="case-eyebrow">CMU DATATHON 2026</span>
-          <h3>Analyzing Critical Challenges In Global Aid Distribution.</h3>
-          <p>Sourced directly from UN humanitarian teams. This Datathon tackles two core problems: Targeting Validation, building models to benchmark budget-to-beneficiary ratios and flag anomalies in project efficiency; and Geo-Insight Challenge, mapping the "funding gap" by identifying geographic regions where humanitarian needs outweigh current pooled fund coverage.</p>
-          <span class="read-more">Read more</span>
-        </div>
-      </a>
-
+    <div class="case-studies-grid" id="blogs-grid">
+      <p class="loading-text">Loading blogs...</p>
     </div>
   </main>
 
@@ -69,7 +44,7 @@
           <li><a href="projects.html">Projects</a></li>
           <li><a href="blogs.html">Blogs</a></li>
           <li><a href="about.html">About</a></li>
-          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
       <div class="footer-social">
@@ -83,10 +58,18 @@
     </div>
   </footer>
 
+  <script src="api.js"></script>
   <script>
     document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
       document.querySelector('.main-nav').classList.toggle('open');
       this.classList.toggle('active');
+    });
+
+    getBlogs().then(function(blogs) {
+      document.getElementById('blogs-grid').innerHTML =
+        blogs.map(function(b) { return renderBlogCard(b, ''); }).join('');
+    }).catch(function() {
+      document.getElementById('blogs-grid').innerHTML = '<p>Could not load blogs.</p>';
     });
   </script>
 
