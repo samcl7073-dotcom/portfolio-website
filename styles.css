@@ -995,6 +995,18 @@ ul {
   grid-template-columns: repeat(3, 1fr);
 }
 
+@media (max-width: 900px) {
+  .listing-page .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .listing-page .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .listing-page .case-studies-grid {
   max-width: 100%;
 }
