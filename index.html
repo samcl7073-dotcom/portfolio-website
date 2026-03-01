@@ -26,18 +26,34 @@
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-bg" style="background-image: url('image/DSCF2403.JPEG')"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1>XR Researcher | Interactive Systems Designer | Narrative Specialist</h1>
-      <p class="hero-subtitle">Master's of Entertainment Technology, Carnegie Mellon University</p>
-      <p class="hero-description">I design and validate interaction systems using behavioral and psychological measures.</p>
-      <div class="hero-buttons">
-        <a href="projects.html" class="btn btn-primary">PORTFOLIO</a>
-        <a href="#" class="btn btn-outline">DEMO REEL</a>
+  <!-- Hero Carousel -->
+  <section class="hero-carousel-section">
+    <div class="carousel" id="hero-carousel">
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide"><img src="image/DSCF1542.JPEG" alt="Film still 1"></div>
+          <div class="carousel-slide"><img src="image/DSCF1895.JPEG" alt="Film still 2"></div>
+          <div class="carousel-slide"><img src="image/DSCF2032.JPEG" alt="Film still 3"></div>
+          <div class="carousel-slide"><img src="image/DSCF2099.JPEG" alt="Film still 4"></div>
+          <div class="carousel-slide"><img src="image/DSCF2100.JPEG" alt="Film still 5"></div>
+          <div class="carousel-slide"><img src="image/DSCF2403.JPEG" alt="Film still 6"></div>
+          <div class="carousel-slide"><img src="image/DSCF3048.JPEG" alt="Film still 7"></div>
+          <div class="carousel-slide"><img src="image/DSCF3066.JPEG" alt="Film still 8"></div>
+        </div>
       </div>
+      <div class="carousel-overlay"></div>
+      <div class="hero-content-overlay">
+        <h1>XR Researcher | Interactive Systems Designer | Narrative Specialist</h1>
+        <p class="hero-subtitle">Master's of Entertainment Technology, Carnegie Mellon University</p>
+        <p class="hero-description">I design and validate interaction systems using behavioral and psychological measures.</p>
+        <div class="hero-buttons">
+          <a href="projects.html" class="btn btn-primary">PORTFOLIO</a>
+          <a href="#" class="btn btn-outline">DEMO REEL</a>
+        </div>
+      </div>
+      <button class="carousel-arrow carousel-prev" aria-label="Previous">&#8592;</button>
+      <button class="carousel-arrow carousel-next" aria-label="Next">&#8594;</button>
+      <div class="carousel-counter"><span class="carousel-current">1</span> / <span class="carousel-total">8</span></div>
     </div>
   </section>
 
@@ -99,10 +115,10 @@
       <a href="blog/anamnesis.html" class="case-card">
         <div class="case-card-image">
           <img src="image/DSCF3048.JPEG" alt="Anamnesis study">
-          <span class="case-label">ONGOING USER STUDY</span>
         </div>
         <div class="case-card-body">
-          <h3>ANAMNESIS: EXPLORING ATTENTION STATES AND NARRATIVE ENGAGEMENT</h3>
+          <span class="case-eyebrow">ONGOING USER STUDY</span>
+          <h3>Anamnesis: Exploring Attention States and Narrative Engagement</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec congue lorem ut volutpat efficitur. Fusce justo magna, condimentum nec elementum sed, sollicitudin vitae enim. Vivamus sit amet metus porttitor, rhoncus nibh et, venenatis turpis. Etiam lobortis semper ante, quis luctus lacus tincidunt vel.</p>
           <span class="read-more">Read more</span>
         </div>
@@ -111,10 +127,10 @@
       <a href="blog/datathon.html" class="case-card">
         <div class="case-card-image">
           <img src="image/DSCF3066.JPEG" alt="CMU Datathon">
-          <span class="case-label">CMU DATATHON 2026</span>
         </div>
         <div class="case-card-body">
-          <h3>Analyzing critical challenges in global aid distribution.</h3>
+          <span class="case-eyebrow">CMU DATATHON 2026</span>
+          <h3>Analyzing Critical Challenges In Global Aid Distribution.</h3>
           <p>Sourced directly from UN humanitarian teams. This Datathon tackles two core problems: Targeting Validation, building models to benchmark budget-to-beneficiary ratios and flag anomalies in project efficiency; and Geo-Insight Challenge, mapping the "funding gap" by identifying geographic regions where humanitarian needs outweigh current pooled fund coverage.</p>
           <span class="read-more">Read more</span>
         </div>
@@ -161,6 +177,43 @@
       document.querySelector('.main-nav').classList.toggle('open');
       this.classList.toggle('active');
     });
+
+    (function() {
+      const track = document.querySelector('.carousel-track');
+      const slides = document.querySelectorAll('.carousel-slide');
+      const counter = document.querySelector('.carousel-current');
+      const prevBtn = document.querySelector('.carousel-prev');
+      const nextBtn = document.querySelector('.carousel-next');
+      if (!slides.length) return;
+
+      let current = 0;
+      let interval;
+      let isAnimating = false;
+      const DELAY = 4000;
+      const total = slides.length;
+
+      function goTo(index) {
+        if (isAnimating) return;
+        isAnimating = true;
+        current = ((index % total) + total) % total;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        counter.textContent = current + 1;
+        setTimeout(function() { isAnimating = false; }, 700);
+      }
+
+      function next() { goTo(current + 1); }
+      function prev() { goTo(current - 1); }
+
+      function startAuto() {
+        clearInterval(interval);
+        interval = setInterval(next, DELAY);
+      }
+
+      prevBtn.addEventListener('click', function() { prev(); startAuto(); });
+      nextBtn.addEventListener('click', function() { next(); startAuto(); });
+
+      startAuto();
+    })();
   </script>
 
 </body>

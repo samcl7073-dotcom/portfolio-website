@@ -26,41 +26,41 @@
     </div>
   </header>
 
+  <!-- Hero Carousel with Title Overlay -->
+  <section class="project-hero-carousel">
+    <div class="carousel">
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide"><img src="../image/DSCF1542.JPEG" alt="Film still 1"></div>
+          <div class="carousel-slide"><img src="../image/DSCF1895.JPEG" alt="Film still 2"></div>
+          <div class="carousel-slide"><img src="../image/DSCF2032.JPEG" alt="Film still 3"></div>
+          <div class="carousel-slide"><img src="../image/DSCF2099.JPEG" alt="Film still 4"></div>
+          <div class="carousel-slide"><img src="../image/DSCF2100.JPEG" alt="Film still 5"></div>
+          <div class="carousel-slide"><img src="../image/DSCF2403.JPEG" alt="Film still 6"></div>
+          <div class="carousel-slide"><img src="../image/DSCF3048.JPEG" alt="Film still 7"></div>
+          <div class="carousel-slide"><img src="../image/DSCF3066.JPEG" alt="Film still 8"></div>
+        </div>
+      </div>
+      <div class="carousel-overlay"></div>
+      <div class="carousel-title-overlay">
+        <h1>Short film: Buffering…Please Wait</h1>
+        <div class="project-meta">
+          <time datetime="2023-06-15">June 15, 2023</time>
+        </div>
+      </div>
+      <button class="carousel-arrow carousel-prev" aria-label="Previous">&#8592;</button>
+      <button class="carousel-arrow carousel-next" aria-label="Next">&#8594;</button>
+      <div class="carousel-counter"><span class="carousel-current">1</span> / <span class="carousel-total">8</span></div>
+    </div>
+  </section>
+
   <!-- Project Content -->
   <main class="project-page">
     <article class="project-article">
 
-      <header class="project-header">
-        <h1>Short film: Buffering…Please Wait</h1>
-        <div class="project-meta">
-          <time datetime="2023-06-15">June 15, 2023</time>
-          <span class="meta-dot">•</span>
-        </div>
-      </header>
-
       <p class="project-intro">
         <strong>Buffering…Please Wait</strong> is a <em>science fiction drama short film</em> directed and written by <strong>Samantha Cheryl Lai</strong>. It debuted in 2023 and has been shown at several international film festivals.
       </p>
-
-      <!-- Film Stills Slideshow -->
-      <section class="slideshow-section">
-        <h3>Film Stills</h3>
-        <div class="slideshow">
-          <div class="slideshow-viewport">
-            <img src="../image/DSCF1542.JPEG" alt="Film still 1" class="slide active">
-            <img src="../image/DSCF1895.JPEG" alt="Film still 2" class="slide">
-            <img src="../image/DSCF2032.JPEG" alt="Film still 3" class="slide">
-            <img src="../image/DSCF2099.JPEG" alt="Film still 4" class="slide">
-            <img src="../image/DSCF2100.JPEG" alt="Film still 5" class="slide">
-            <img src="../image/DSCF2403.JPEG" alt="Film still 6" class="slide">
-            <img src="../image/DSCF3048.JPEG" alt="Film still 7" class="slide">
-            <img src="../image/DSCF3066.JPEG" alt="Film still 8" class="slide">
-          </div>
-          <button class="slide-arrow slide-prev" aria-label="Previous">&#8592;</button>
-          <button class="slide-arrow slide-next" aria-label="Next">&#8594;</button>
-          <div class="slide-counter"><span class="slide-current">1</span> / <span class="slide-total">8</span></div>
-        </div>
-      </section>
 
       <section class="project-section">
         <h3>Overview</h3>
@@ -186,21 +186,26 @@
     });
 
     (function() {
-      const slides = document.querySelectorAll('.slideshow .slide');
-      const counter = document.querySelector('.slide-current');
-      const prevBtn = document.querySelector('.slide-prev');
-      const nextBtn = document.querySelector('.slide-next');
+      const track = document.querySelector('.carousel-track');
+      const slides = document.querySelectorAll('.carousel-slide');
+      const counter = document.querySelector('.carousel-current');
+      const prevBtn = document.querySelector('.carousel-prev');
+      const nextBtn = document.querySelector('.carousel-next');
       if (!slides.length) return;
 
       let current = 0;
       let interval;
+      let isAnimating = false;
       const DELAY = 4000;
+      const total = slides.length;
 
       function goTo(index) {
-        slides[current].classList.remove('active');
-        current = (index + slides.length) % slides.length;
-        slides[current].classList.add('active');
+        if (isAnimating) return;
+        isAnimating = true;
+        current = ((index % total) + total) % total;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
         counter.textContent = current + 1;
+        setTimeout(function() { isAnimating = false; }, 700);
       }
 
       function next() { goTo(current + 1); }
