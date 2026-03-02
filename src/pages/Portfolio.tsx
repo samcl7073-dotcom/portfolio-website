@@ -56,10 +56,16 @@ export default function Portfolio() {
     const reverseCols = reverseRefs.current.filter(Boolean)
     if (!reverseCols.length) return
 
-    let ticking = false
+    const currentY = reverseCols.map(() => 0)
+    const targetY = reverseCols.map(() => 0)
+    const LERP = 0.08
+    let rafId: number
+    let autoScrollId: ReturnType<typeof setInterval>
+    let userScrolling = false
+    let userScrollTimer: ReturnType<typeof setTimeout>
+    const AUTO_SPEED = 0.5
 
-    function update() {
-      ticking = false
+    function computeTargets() {
       const wrapperRect = wrapper!.getBoundingClientRect()
       const wrapperTop = window.scrollY + wrapperRect.top
       const totalScroll = wrapper!.scrollHeight - window.innerHeight
@@ -67,29 +73,61 @@ export default function Portfolio() {
       const scrollY = window.scrollY - wrapperTop
       const progress = Math.min(Math.max(scrollY / totalScroll, 0), 1)
 
-      reverseCols.forEach(col => {
+      reverseCols.forEach((col, i) => {
         const colH = col.scrollHeight
         const vpH = window.innerHeight
         const maxShift = colH - vpH
         if (maxShift <= 0) return
         const from = -maxShift
         const to = maxShift
-        const offset = from + progress * (to - from)
-        col.style.transform = `translateY(${Math.max(from, Math.min(to, offset))}px)`
+        targetY[i] = Math.max(from, Math.min(to, from + progress * (to - from)))
       })
     }
 
-    function onScroll() {
-      if (!ticking) {
-        requestAnimationFrame(update)
-        ticking = true
-      }
+    function animate() {
+      let needsUpdate = false
+      reverseCols.forEach((col, i) => {
+        const diff = targetY[i] - currentY[i]
+        if (Math.abs(diff) > 0.5) {
+          currentY[i] += diff * LERP
+          needsUpdate = true
+        } else {
+          currentY[i] = targetY[i]
+        }
+        col.style.transform = `translateY(${currentY[i]}px)`
+      })
+
+      rafId = requestAnimationFrame(animate)
     }
 
-    window.addEventListener('scroll', onScroll, { passive: true })
-    update()
+    function onScroll() {
+      userScrolling = true
+      clearTimeout(userScrollTimer)
+      userScrollTimer = setTimeout(() => { userScrolling = false }, 2000)
+      computeTargets()
+    }
 
-    return () => window.removeEventListener('scroll', onScroll)
+    function startAutoScroll() {
+      autoScrollId = setInterval(() => {
+        if (userScrolling) return
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+        if (window.scrollY >= maxScroll) return
+        window.scrollBy({ top: AUTO_SPEED, behavior: 'instant' as ScrollBehavior })
+      }, 16)
+    }
+
+    computeTargets()
+    reverseCols.forEach((_, i) => { currentY[i] = targetY[i] })
+    rafId = requestAnimationFrame(animate)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    startAutoScroll()
+
+    return () => {
+      cancelAnimationFrame(rafId)
+      clearInterval(autoScrollId)
+      clearTimeout(userScrollTimer)
+      window.removeEventListener('scroll', onScroll)
+    }
   }, [items])
 
   const columns = distributeToColumns(items, 3)
