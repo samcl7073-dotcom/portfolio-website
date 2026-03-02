@@ -46,6 +46,41 @@ ul {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  transition: background 0.3s, border-bottom-color 0.3s;
+}
+
+.site-header.header-over-cover {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+}
+
+.site-header.header-over-cover .site-logo {
+  color: #fff;
+}
+
+.site-header.header-over-cover .main-nav a {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.site-header.header-over-cover .main-nav a:hover,
+.site-header.header-over-cover .main-nav a.nav-active {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.site-header.header-over-cover .mobile-menu-btn span {
+  background: #fff;
+}
+
+.site-header .site-logo,
+.site-header .main-nav a {
+  transition: color 0.3s;
+}
+
+.site-header .mobile-menu-btn span {
+  transition: background 0.3s;
 }
 
 .header-inner {
@@ -111,10 +146,15 @@ ul {
    ======================================== */
 .hero-carousel-section {
   width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
+.hero-carousel-section .carousel,
+.hero-carousel-section .carousel-viewport,
+.hero-carousel-section .carousel-track,
 .hero-carousel-section .carousel-slide {
-  height: 100vh;
+  height: 100%;
 }
 
 .hero-content-overlay {
@@ -524,9 +564,7 @@ ul {
   padding: 7rem 2rem 4rem;
 }
 
-.project-hero-carousel + .project-page,
-#blog-hero:has(.project-hero-carousel) + .project-page,
-#blog-hero:has(.project-hero-banner) + .project-page {
+.project-hero-carousel + .project-page {
   padding-top: 3rem;
 }
 
@@ -763,6 +801,76 @@ ul {
   padding-top: 3rem;
 }
 
+.project-body {
+  font-family: 'Avenir', 'Avenir Next', -apple-system, sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #444;
+}
+
+.project-body p {
+  margin: 1.25rem 0;
+}
+
+.project-body h2 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin: 2.5rem 0 1rem;
+}
+
+.project-body h3 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 2rem 0 0.75rem;
+}
+
+.project-body h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.project-body ul,
+.project-body ol {
+  margin: 1.25rem 0;
+  padding-left: 1.5rem;
+}
+
+.project-body li {
+  margin-bottom: 0.5rem;
+  list-style: disc;
+}
+
+.project-body ol li {
+  list-style: decimal;
+}
+
+.project-body hr {
+  border: none;
+  border-top: 1px solid #e8e8e8;
+  margin: 2rem 0;
+}
+
+.project-body strong {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.project-body a {
+  color: #0f3460;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.project-body a:hover {
+  color: #1a1a2e;
+}
+
 .project-body img {
   max-width: 100%;
   height: auto;
@@ -861,6 +969,81 @@ ul {
 }
 
 /* ========================================
+   Cover Card (non-hero pages)
+   ======================================== */
+.cover-card {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cover-card.cover-sunset {
+  background: linear-gradient(160deg, #2d1b4e 0%, #8b3a62 30%, #e06850 65%, #f2a553 100%);
+}
+
+.cover-card.cover-ocean {
+  background: linear-gradient(160deg, #0b1e3d 0%, #0f4c75 35%, #1b8ca0 70%, #5ec6c6 100%);
+}
+
+.cover-card.cover-dawn {
+  background: linear-gradient(160deg, #2b1055 0%, #7b4397 35%, #d76d8e 70%, #fbc2a3 100%);
+}
+
+.cover-card.cover-golden {
+  background: linear-gradient(160deg, #1f1c2c 0%, #7b4a2d 30%, #c97b3d 60%, #f2c14e 100%);
+}
+
+.cover-card-content {
+  text-align: center;
+  padding: 2rem;
+  z-index: 2;
+}
+
+.cover-card-content h1 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: calc(3vw + 1rem);
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.cover-card-content p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 1rem;
+  letter-spacing: 0.05em;
+}
+
+/* Project hero height chains for cover mode */
+.project-hero-carousel .carousel,
+.project-hero-carousel .carousel-viewport,
+.project-hero-carousel .carousel-track,
+.project-hero-carousel .carousel-slide {
+  height: 100%;
+}
+
+.project-hero-banner.as-cover {
+  height: 100%;
+  max-height: none;
+}
+
+.project-hero-banner.as-cover > img {
+  height: 100%;
+  max-height: none;
+}
+
+/* Cover spacer */
+.cover-spacer {
+  pointer-events: none;
+}
+
+/* ========================================
    Responsive
    ======================================== */
 @media (max-width: 900px) {
@@ -919,7 +1102,7 @@ ul {
   }
 
   .hero-carousel-section .carousel-slide {
-    height: 70vh;
+    height: 100%;
   }
 
   .contact-cta h2 {
@@ -938,9 +1121,7 @@ ul {
     padding: 5.5rem 1.5rem 3rem;
   }
 
-  .project-hero-carousel + .project-page,
-  #blog-hero:has(.project-hero-carousel) + .project-page,
-  #blog-hero:has(.project-hero-banner) + .project-page {
+  .project-hero-carousel + .project-page {
     padding-top: 2rem;
   }
 
@@ -1036,6 +1217,47 @@ ul {
   color: #444;
   line-height: 1.8;
   margin-bottom: 1.25rem;
+}
+
+.content-article img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  border-radius: 6px;
+}
+
+.content-article figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2.5rem auto;
+  max-width: 100%;
+}
+
+.content-article figure img {
+  margin: 0;
+  border-radius: 6px;
+}
+
+.content-article figcaption {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0.5rem;
+}
+
+/* Image reveal animation */
+.revealing-image {
+  opacity: 0;
+  clip-path: inset(45% 20% 45% 20%);
+  transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              clip-path 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.revealing-image.revealed {
+  opacity: 1;
+  clip-path: inset(0% 0% 0% 0%);
 }
 
 /* ========================================

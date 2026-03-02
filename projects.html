@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects – Samantha C. Lai</title>
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=11">
 </head>
 <body>
 
@@ -25,10 +25,14 @@
     </div>
   </header>
 
-  <main class="listing-page">
-    <div class="listing-header">
+  <div class="cover-card cover-sunset">
+    <div class="cover-card-content">
       <h1>Projects</h1>
+      <p>Research-Driven Systems Design</p>
     </div>
+  </div>
+
+  <main class="listing-page">
     <div class="projects-grid" id="projects-grid">
       <p class="loading-text">Loading projects...</p>
     </div>
@@ -59,6 +63,7 @@
   </footer>
 
   <script src="api.js"></script>
+  <script src="cover-header.js"></script>
   <script>
     document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
       document.querySelector('.main-nav').classList.toggle('open');
