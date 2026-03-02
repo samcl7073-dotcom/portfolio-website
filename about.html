@@ -4,7 +4,102 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Me – Samantha C. Lai</title>
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=11">
+  <style>
+    .about-cover {
+      width: 100%;
+      height: 100vh;
+      background: linear-gradient(180deg, #1a2555 0%, #2e4a8a 30%, #4a68b0 50%, #a86a90 72%, #e87a8a 85%, #f0909a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .about-cover-inner {
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+      max-width: 900px;
+      width: 100%;
+      padding: 0 3rem;
+    }
+    .about-cover-photo {
+      flex: 0 0 200px;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 1s cubic-bezier(0.22, 0.61, 0.36, 1),
+                  transform 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+    .about-cover-photo.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .about-cover-photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+    .about-cover-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .about-cover-text h1 {
+      font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+      font-size: 2.2rem;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+                  transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+    .about-cover-text .cover-subtitle {
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: rgba(255, 255, 255, 0.55);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.1s,
+                  transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.1s;
+    }
+    .about-cover-text p.cover-bio {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+                  transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+    .about-cover-text .text-visible {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+    @media (max-width: 768px) {
+      .about-cover-inner {
+        flex-direction: column;
+        text-align: center;
+        padding: 0 2rem;
+        gap: 1.5rem;
+      }
+      .about-cover-photo {
+        flex: none;
+        width: 150px;
+      }
+      .about-cover-text h1 {
+        font-size: 1.6rem;
+      }
+      .about-cover-text p.cover-bio {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -25,9 +120,18 @@
     </div>
   </header>
 
+  <div class="about-cover" id="about-cover">
+    <div class="about-cover-inner">
+      <div class="about-cover-photo" id="cover-photo"></div>
+      <div class="about-cover-text" id="cover-text">
+        <h1>About Me</h1>
+        <p class="cover-subtitle">XR Researcher &amp; Interactive Systems Designer</p>
+      </div>
+    </div>
+  </div>
+
   <main class="content-page">
     <article class="content-article" id="about-content">
-      <h1>About Me</h1>
       <p class="loading-text">Loading...</p>
     </article>
   </main>
@@ -57,6 +161,7 @@
   </footer>
 
   <script src="api.js"></script>
+  <script src="cover-header.js"></script>
   <script>
     document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
       document.querySelector('.main-nav').classList.toggle('open');
@@ -64,10 +169,63 @@
     });
 
     getPage(2).then(function(page) {
-      var el = document.getElementById('about-content');
-      el.innerHTML = '<h1>' + page.title.rendered + '</h1>' + page.content.rendered;
+      var temp = document.createElement('div');
+      temp.innerHTML = page.content.rendered;
+
+      var figure = temp.querySelector('figure, .wp-block-image');
+      var imgSrc = '';
+      if (figure) {
+        var img = figure.querySelector('img');
+        if (img) imgSrc = img.src || img.getAttribute('src');
+        figure.remove();
+      }
+
+      var paragraphs = temp.querySelectorAll('p');
+      var introTexts = [];
+      var introEls = [];
+      for (var i = 0; i < paragraphs.length && introTexts.length < 2; i++) {
+        var txt = paragraphs[i].textContent.trim();
+        if (txt.length > 20) {
+          introTexts.push(paragraphs[i].innerHTML);
+          introEls.push(paragraphs[i]);
+        }
+      }
+      introEls.forEach(function(p) { p.remove(); });
+
+      if (imgSrc) {
+        document.getElementById('cover-photo').innerHTML = '<img src="' + imgSrc + '" alt="Samantha C. Lai">';
+      }
+
+      var coverText = document.getElementById('cover-text');
+      introTexts.forEach(function(t) {
+        var p = document.createElement('p');
+        p.className = 'cover-bio';
+        p.innerHTML = t;
+        coverText.appendChild(p);
+      });
+
+      document.getElementById('about-content').innerHTML = temp.innerHTML;
+
+      var cover = document.getElementById('about-cover');
+      initCoverHeader(cover);
+
+      setTimeout(function() {
+        var photo = document.querySelector('.about-cover-photo');
+        if (photo) photo.classList.add('visible');
+
+        var h1 = coverText.querySelector('h1');
+        var subtitle = coverText.querySelector('.cover-subtitle');
+        var bios = coverText.querySelectorAll('.cover-bio');
+
+        if (h1) setTimeout(function() { h1.classList.add('text-visible'); }, 200);
+        if (subtitle) setTimeout(function() { subtitle.classList.add('text-visible'); }, 400);
+        bios.forEach(function(p, i) {
+          setTimeout(function() { p.classList.add('text-visible'); }, 600 + i * 200);
+        });
+      }, 300);
     }).catch(function() {
-      document.getElementById('about-content').innerHTML = '<h1>About Me</h1><p>Could not load content.</p>';
+      document.getElementById('about-content').innerHTML = '<p>Could not load content.</p>';
+      initCoverHeader(document.getElementById('about-cover'));
     });
   </script>
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog – Samantha C. Lai</title>
-  <link rel="stylesheet" href="../styles.css?v=2">
+  <link rel="stylesheet" href="../styles.css?v=11">
 </head>
 <body>
 
@@ -24,6 +24,14 @@
       </button>
     </div>
   </header>
+
+  <div id="blog-hero"></div>
+
+  <div class="cover-card cover-golden" id="blog-cover" style="display:none;">
+    <div class="cover-card-content">
+      <h1 id="blog-cover-title">Blog</h1>
+    </div>
+  </div>
 
   <main class="project-page">
     <article class="project-article" id="blog-content">
@@ -56,19 +64,83 @@
   </footer>
 
   <script src="../api.js"></script>
+  <script src="../cover-header.js"></script>
   <script>
     document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
       document.querySelector('.main-nav').classList.toggle('open');
       this.classList.toggle('active');
     });
 
+    function renderBlogCarouselHero(title, date, images) {
+      var slides = images.map(function(src, i) {
+        return '<div class="carousel-slide"><img src="' + src + '" alt="Image ' + (i+1) + '"></div>';
+      }).join('');
+
+      return '<section class="project-hero-carousel">' +
+        '<div class="carousel" id="blog-carousel">' +
+          '<div class="carousel-viewport">' +
+            '<div class="carousel-track">' + slides + '</div>' +
+          '</div>' +
+          '<div class="carousel-overlay"></div>' +
+          '<div class="carousel-title-overlay">' +
+            '<h1>' + title + '</h1>' +
+            '<div class="project-meta"><time>' + date + '</time></div>' +
+          '</div>' +
+          '<button class="carousel-arrow carousel-prev" aria-label="Previous">&#8592;</button>' +
+          '<button class="carousel-arrow carousel-next" aria-label="Next">&#8594;</button>' +
+          '<div class="carousel-counter"><span class="carousel-current">1</span> / <span class="carousel-total">' + images.length + '</span></div>' +
+        '</div>' +
+      '</section>';
+    }
+
+    function initBlogCarousel() {
+      var track = document.querySelector('#blog-carousel .carousel-track');
+      var slides = document.querySelectorAll('#blog-carousel .carousel-slide');
+      var counter = document.querySelector('#blog-carousel .carousel-current');
+      var prevBtn = document.querySelector('#blog-carousel .carousel-prev');
+      var nextBtn = document.querySelector('#blog-carousel .carousel-next');
+      if (!slides.length) return;
+
+      var current = 0;
+      var interval;
+      var isAnimating = false;
+      var DELAY = 4000;
+      var total = slides.length;
+
+      function goTo(index) {
+        if (isAnimating) return;
+        isAnimating = true;
+        current = ((index % total) + total) % total;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        counter.textContent = current + 1;
+        setTimeout(function() { isAnimating = false; }, 700);
+      }
+
+      function next() { goTo(current + 1); }
+      function prev() { goTo(current - 1); }
+
+      function startAuto() {
+        clearInterval(interval);
+        interval = setInterval(next, DELAY);
+      }
+
+      prevBtn.addEventListener('click', function() { prev(); startAuto(); });
+      nextBtn.addEventListener('click', function() { next(); startAuto(); });
+
+      startAuto();
+    }
+
     var slug = getSlugParam();
     if (!slug) {
       document.getElementById('blog-content').innerHTML = '<p>No blog post specified.</p>';
+      document.getElementById('blog-cover').style.display = '';
+      initCoverHeader(document.getElementById('blog-cover'));
     } else {
       getBlogBySlug(slug).then(function(results) {
         if (!results.length) {
           document.getElementById('blog-content').innerHTML = '<p>Blog post not found.</p>';
+          document.getElementById('blog-cover').style.display = '';
+          initCoverHeader(document.getElementById('blog-cover'));
           return;
         }
         var blog = results[0];
@@ -77,29 +149,69 @@
         var categories = getCategoryNames(blog);
         var date = formatDate(blog.date);
 
-        var html = '<header class="project-header">' +
-          '<h1>' + blog.title.rendered + '</h1>' +
-          '<div class="project-meta">' +
-            '<time>' + date + '</time>' +
-            '<span class="meta-dot">•</span>' +
-          '</div>' +
-        '</header>';
+        var temp = document.createElement('div');
+        temp.innerHTML = blog.content.rendered.trim();
 
-        if (blog.content.rendered.trim()) {
-          html += '<div class="project-body">' + blog.content.rendered + '</div>';
-        } else if (blog.excerpt.rendered.trim()) {
-          html += '<p class="project-intro">' + stripHtml(blog.excerpt.rendered) + '</p>';
+        var images = [];
+        temp.querySelectorAll('figure img').forEach(function(img) {
+          var src = img.getAttribute('src') || img.src;
+          if (src) images.push(src);
+        });
+
+        var featuredImg = getFeaturedImage(blog, 'full');
+        if (featuredImg && featuredImg !== 'image/DSCF1542.JPEG' && images.indexOf(featuredImg) === -1) {
+          images.unshift(featuredImg);
         }
 
-        if (categories.length) {
-          html += '<div class="category-tags">' +
-            categories.map(function(c) { return '<a href="#">' + c + '</a>'; }).join('') +
-          '</div>';
-        }
+        if (images.length) {
+          temp.querySelectorAll('figure').forEach(function(fig) { fig.remove(); });
 
-        document.getElementById('blog-content').innerHTML = html;
+          document.getElementById('blog-hero').innerHTML = renderBlogCarouselHero(blog.title.rendered, date, images);
+          initBlogCarousel();
+          initCoverHeader(document.querySelector('.project-hero-carousel'));
+
+          var content = temp.innerHTML.trim();
+          var html = '';
+          if (content) {
+            html += '<div class="project-body">' + content + '</div>';
+          }
+          if (categories.length) {
+            html += '<div class="category-tags">' +
+              categories.map(function(c) { return '<a href="#">' + c + '</a>'; }).join('') +
+            '</div>';
+          }
+          document.getElementById('blog-content').innerHTML = html || '<p>' + stripHtml(blog.excerpt.rendered) + '</p>';
+        } else {
+          document.getElementById('blog-cover').style.display = '';
+          document.getElementById('blog-cover-title').innerHTML = blog.title.rendered;
+          initCoverHeader(document.getElementById('blog-cover'));
+
+          var html = '<header class="project-header">' +
+            '<h1>' + blog.title.rendered + '</h1>' +
+            '<div class="project-meta">' +
+              '<time>' + date + '</time>' +
+              '<span class="meta-dot">•</span>' +
+            '</div>' +
+          '</header>';
+
+          if (blog.content.rendered.trim()) {
+            html += '<div class="project-body">' + blog.content.rendered + '</div>';
+          } else if (blog.excerpt.rendered.trim()) {
+            html += '<p class="project-intro">' + stripHtml(blog.excerpt.rendered) + '</p>';
+          }
+
+          if (categories.length) {
+            html += '<div class="category-tags">' +
+              categories.map(function(c) { return '<a href="#">' + c + '</a>'; }).join('') +
+            '</div>';
+          }
+
+          document.getElementById('blog-content').innerHTML = html;
+        }
       }).catch(function() {
         document.getElementById('blog-content').innerHTML = '<p>Could not load blog post.</p>';
+        document.getElementById('blog-cover').style.display = '';
+        initCoverHeader(document.getElementById('blog-cover'));
       });
     }
   </script>
