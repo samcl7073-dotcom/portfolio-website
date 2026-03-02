@@ -6,17 +6,25 @@ interface BlogCardProps {
   blog: WPPost
 }
 
+const TOP_CROP_SLUGS = ['building-virtual-worlds-rapid-prototyping']
+
 export default function BlogCard({ blog }: BlogCardProps) {
   const img = getFeaturedImage(blog)
   const categories = getCategoryNames(blog)
   const title = blog.title.rendered
   const excerpt = stripHtml(blog.excerpt.rendered)
   const label = categories.length ? categories[0] : ''
+  const cropTop = TOP_CROP_SLUGS.includes(blog.slug)
 
   return (
     <Link to={`/blog/${blog.slug}`} className="case-card">
       <div className="case-card-image">
-        <img src={img} alt={title} loading="lazy" />
+        <img
+          src={img}
+          alt={title}
+          loading="lazy"
+          style={cropTop ? { objectPosition: 'center top' } : undefined}
+        />
       </div>
       <div className="case-card-body">
         {label && <span className="case-eyebrow">{label.toUpperCase()}</span>}
