@@ -1,0 +1,1397 @@
+/* ========================================
+   Reset & Base
+   ======================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Avenir', 'Avenir Next', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #2c2c2c;
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ========================================
+   Header
+   ======================================== */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  transition: background 0.3s, border-bottom-color 0.3s;
+}
+
+.site-header.header-over-cover {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+}
+
+.site-header.header-over-cover .site-logo {
+  color: #fff;
+}
+
+.site-header.header-over-cover .main-nav a {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.site-header.header-over-cover .main-nav a:hover,
+.site-header.header-over-cover .main-nav a.nav-active {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.site-header.header-over-cover .mobile-menu-btn span {
+  background: #fff;
+}
+
+.site-header .site-logo,
+.site-header .main-nav a {
+  transition: color 0.3s;
+}
+
+.site-header .mobile-menu-btn span {
+  transition: background 0.3s;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2.5rem;
+}
+
+.site-logo {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #1a1a1a;
+}
+
+.main-nav ul {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.main-nav a {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: #555;
+  transition: color 0.2s;
+}
+
+.main-nav a:hover,
+.main-nav a.nav-active {
+  color: #1a1a1a;
+}
+
+.main-nav a.nav-active {
+  border-bottom: 1.5px solid #1a1a1a;
+  padding-bottom: 2px;
+}
+
+/* Mobile menu */
+.mobile-menu-btn {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.mobile-menu-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #1a1a1a;
+  transition: 0.3s;
+}
+
+/* ========================================
+   Hero
+   ======================================== */
+.hero-carousel-section {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-carousel-section .carousel,
+.hero-carousel-section .carousel-viewport,
+.hero-carousel-section .carousel-track,
+.hero-carousel-section .carousel-slide {
+  height: 100%;
+}
+
+.hero-content-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  pointer-events: none;
+}
+
+.hero-content-overlay .btn {
+  pointer-events: auto;
+}
+
+.hero-content-overlay h1,
+.hero-content-overlay p {
+  max-width: 720px;
+}
+
+.hero-content-overlay h1 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.35;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+
+.hero-subtitle {
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1.25rem;
+}
+
+.hero-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ========================================
+   Buttons
+   ======================================== */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  border-radius: 2px;
+  transition: all 0.25s;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #fff;
+  color: #1a1a1a;
+}
+
+.btn-primary:hover {
+  background: #e8e8e8;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-outline:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ========================================
+   Research Tagline
+   ======================================== */
+.research-tagline {
+  text-align: center;
+  padding: 5rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.research-tagline h2 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.research-tagline p {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #2c2c2c;
+}
+
+/* ========================================
+   Section Headings
+   ======================================== */
+.section-heading {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-align: center;
+  color: #888;
+  margin-bottom: 3rem;
+}
+
+/* ========================================
+   Past Projects
+   ======================================== */
+.past-projects {
+  padding: 4rem 2.5rem 5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.project-card {
+  display: block;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.project-card:hover .card-image img {
+  transform: scale(1.03);
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-body time {
+  display: block;
+  font-size: 0.75rem;
+  color: #999;
+  margin-bottom: 0.5rem;
+}
+
+.card-body h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+.card-body p {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.65;
+  margin-bottom: 1rem;
+}
+
+.read-more {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  padding-bottom: 2px;
+}
+
+/* ========================================
+   Case Studies
+   ======================================== */
+.case-studies {
+  padding: 4rem 2.5rem 5rem;
+  background: #f7f7f7;
+}
+
+.case-studies .section-heading {
+  margin-bottom: 3rem;
+}
+
+.case-studies-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.case-card {
+  display: block;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.case-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.case-card-image {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.case-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.case-card-body {
+  padding: 1.75rem;
+}
+
+.case-eyebrow {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #888;
+  margin-bottom: 0.6rem;
+}
+
+.case-card-body h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.03em;
+}
+
+.case-card-body p {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.65;
+  margin-bottom: 1rem;
+}
+
+/* ========================================
+   Contact CTA
+   ======================================== */
+.contact-cta {
+  text-align: center;
+  padding: 6rem 2rem;
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.contact-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1rem;
+}
+
+.contact-cta h2 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 2.5rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+.contact-tagline {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2rem;
+}
+
+.contact-cta .btn-primary {
+  background: #fff;
+  color: #1a1a1a;
+}
+
+.contact-cta .btn-primary:hover {
+  background: #e0e0e0;
+}
+
+/* ========================================
+   Footer
+   ======================================== */
+.site-footer {
+  background: #f7f7f7;
+  padding: 3rem 2.5rem 2rem;
+  border-top: 1px solid #e8e8e8;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-logo {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: 0.03em;
+}
+
+.footer-nav {
+  margin: 1.5rem 0;
+}
+
+.footer-nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.footer-nav a {
+  font-size: 0.8rem;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.footer-nav a:hover {
+  color: #1a1a1a;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.footer-social a {
+  font-size: 0.8rem;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.footer-social a:hover {
+  color: #1a1a1a;
+}
+
+.footer-legal {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.footer-legal a {
+  font-size: 0.75rem;
+  color: #aaa;
+  transition: color 0.2s;
+}
+
+.footer-legal a:hover {
+  color: #666;
+}
+
+/* ========================================
+   Project Page
+   ======================================== */
+.project-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 7rem 2rem 4rem;
+}
+
+.project-hero-carousel + .project-page {
+  padding-top: 3rem;
+}
+
+.project-header {
+  margin-bottom: 2rem;
+}
+
+.project-header h1 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+}
+
+.project-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.project-meta time {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.meta-dot {
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.project-intro {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 2.5rem;
+}
+
+.project-section {
+  margin-bottom: 2.5rem;
+}
+
+.project-section h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+}
+
+.project-section p {
+  color: #444;
+  line-height: 1.8;
+}
+
+.project-section ul {
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.project-section li {
+  margin-bottom: 0.5rem;
+  color: #444;
+  line-height: 1.7;
+}
+
+.overview-list {
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.overview-list li {
+  margin-bottom: 0.4rem;
+  color: #444;
+  line-height: 1.7;
+}
+
+.project-divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 3rem 0;
+}
+
+/* ========================================
+   Full-Bleed Hero Carousel
+   ======================================== */
+.project-hero-carousel {
+  width: 100%;
+  margin-top: 0;
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  background: #0a0a0a;
+  overflow: hidden;
+}
+
+.carousel-viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  height: 85vh;
+  overflow: hidden;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  border: none;
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s, background 0.2s;
+  z-index: 2;
+}
+
+.carousel:hover .carousel-arrow,
+.carousel:hover .carousel-counter {
+  opacity: 1;
+}
+
+.carousel-arrow:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-prev {
+  left: 1rem;
+}
+
+.carousel-next {
+  right: 1rem;
+}
+
+.carousel-counter {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 2;
+}
+
+.carousel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.carousel-title-overlay {
+  position: absolute;
+  bottom: 3.5rem;
+  left: 0;
+  width: 100%;
+  padding: 0 4rem;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.carousel-title-overlay h1 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 3rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+
+.carousel-title-overlay .project-meta time {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ========================================
+   Project Hero Banner (single image, dynamic)
+   ======================================== */
+.project-hero-banner {
+  position: relative;
+  width: 100%;
+  max-height: 85vh;
+  overflow: hidden;
+}
+
+.project-hero-banner > img {
+  width: 100%;
+  height: auto;
+  max-height: 85vh;
+  object-fit: cover;
+  display: block;
+}
+
+.project-hero-banner + .project-page {
+  padding-top: 3rem;
+}
+
+.project-body {
+  font-family: 'Avenir', 'Avenir Next', -apple-system, sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #444;
+}
+
+.project-body p {
+  margin: 1.25rem 0;
+}
+
+.project-body h2 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin: 2.5rem 0 1rem;
+}
+
+.project-body h3 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 2rem 0 0.75rem;
+}
+
+.project-body h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.project-body ul,
+.project-body ol {
+  margin: 1.25rem 0;
+  padding-left: 1.5rem;
+}
+
+.project-body li {
+  margin-bottom: 0.5rem;
+  list-style: disc;
+}
+
+.project-body ol li {
+  list-style: decimal;
+}
+
+.project-body hr {
+  border: none;
+  border-top: 1px solid #e8e8e8;
+  margin: 2rem 0;
+}
+
+.project-body strong {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.project-body a {
+  color: #0f3460;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.project-body a:hover {
+  color: #1a1a2e;
+}
+
+.project-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 1rem 0;
+  object-fit: contain;
+}
+
+.project-body figure {
+  margin: 1.5rem 0;
+}
+
+.project-body figure img {
+  width: 100%;
+  height: auto;
+}
+
+.project-body figcaption {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0.5rem;
+}
+
+.loading-text {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+/* ========================================
+   Related Work
+   ======================================== */
+.related-work {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.related-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: #999;
+  margin-bottom: 0.5rem;
+}
+
+.related-work > h2 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.related-grid .card-body {
+  padding: 1rem;
+}
+
+.related-grid .card-body h3 {
+  font-size: 0.95rem;
+}
+
+.related-grid .card-body p {
+  font-size: 0.85rem;
+}
+
+/* ========================================
+   Category Tags
+   ======================================== */
+.category-tags {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e8e8e8;
+}
+
+.category-tags a {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: #888;
+  background: #f2f2f2;
+  padding: 0.35rem 0.9rem;
+  border-radius: 2px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.category-tags a:hover {
+  background: #e0e0e0;
+  color: #444;
+}
+
+/* ========================================
+   Cover Card (non-hero pages)
+   ======================================== */
+.cover-card {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cover-card.cover-sunset {
+  background: linear-gradient(160deg, #2d1b4e 0%, #8b3a62 30%, #e06850 65%, #f2a553 100%);
+}
+
+.cover-card.cover-ocean {
+  background: linear-gradient(160deg, #0b1e3d 0%, #0f4c75 35%, #1b8ca0 70%, #5ec6c6 100%);
+}
+
+.cover-card.cover-dawn {
+  background: linear-gradient(160deg, #2b1055 0%, #7b4397 35%, #d76d8e 70%, #fbc2a3 100%);
+}
+
+.cover-card.cover-golden {
+  background: linear-gradient(160deg, #1f1c2c 0%, #7b4a2d 30%, #c97b3d 60%, #f2c14e 100%);
+}
+
+.cover-card-content {
+  text-align: center;
+  padding: 2rem;
+  z-index: 2;
+}
+
+.cover-card-content h1 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: calc(3vw + 1rem);
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.cover-card-content p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 1rem;
+  letter-spacing: 0.05em;
+}
+
+/* Project hero height chains for cover mode */
+.project-hero-carousel .carousel,
+.project-hero-carousel .carousel-viewport,
+.project-hero-carousel .carousel-track,
+.project-hero-carousel .carousel-slide {
+  height: 100%;
+}
+
+.project-hero-banner.as-cover {
+  height: 100%;
+  max-height: none;
+}
+
+.project-hero-banner.as-cover > img {
+  height: 100%;
+  max-height: none;
+}
+
+/* Cover spacer */
+.cover-spacer {
+  pointer-events: none;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 900px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-content-overlay h1 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 1rem 2rem;
+  }
+
+  .main-nav.open {
+    display: block;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .case-studies-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content-overlay h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-carousel-section .carousel-slide {
+    height: 100%;
+  }
+
+  .contact-cta h2 {
+    font-size: 1.8rem;
+  }
+
+  .research-tagline p {
+    font-size: 1.2rem;
+  }
+
+  .header-inner {
+    padding: 1rem 1.5rem;
+  }
+
+  .project-page {
+    padding: 5.5rem 1.5rem 3rem;
+  }
+
+  .project-hero-carousel + .project-page {
+    padding-top: 2rem;
+  }
+
+  .carousel-slide {
+    height: 60vh;
+  }
+
+  .carousel-title-overlay {
+    padding: 0 1.5rem;
+    bottom: 2.5rem;
+  }
+
+  .carousel-title-overlay h1 {
+    font-size: 1.8rem;
+  }
+
+  .project-hero-banner,
+  .project-hero-banner > img {
+    max-height: 50vh;
+  }
+
+  .listing-page {
+    padding: 5.5rem 1.5rem 3rem;
+  }
+
+  .listing-page .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-page {
+    padding: 5.5rem 1.5rem 3rem;
+  }
+}
+
+/* ========================================
+   Listing Pages (Projects / Blogs)
+   ======================================== */
+.listing-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 7rem 2.5rem 5rem;
+}
+
+.listing-header {
+  margin-bottom: 3rem;
+}
+
+.listing-header h1 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.listing-page .projects-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px) {
+  .listing-page .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .listing-page .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.listing-page .case-studies-grid {
+  max-width: 100%;
+}
+
+/* ========================================
+   Content Pages (About, etc.)
+   ======================================== */
+.content-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 7rem 2rem 5rem;
+}
+
+.content-article h1 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+}
+
+.content-article p {
+  color: #444;
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+
+.content-article img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  border-radius: 6px;
+}
+
+.content-article figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2.5rem auto;
+  max-width: 100%;
+}
+
+.content-article figure img {
+  margin: 0;
+  border-radius: 6px;
+}
+
+.content-article figcaption {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0.5rem;
+}
+
+/* Image reveal animation */
+.revealing-image {
+  opacity: 0;
+  clip-path: inset(45% 20% 45% 20%);
+  transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              clip-path 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.revealing-image.revealed {
+  opacity: 1;
+  clip-path: inset(0% 0% 0% 0%);
+}
+
+/* ========================================
+   Project Meta Label
+   ======================================== */
+.meta-label {
+  font-size: 0.8rem;
+  color: #888;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .footer-nav ul {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-social {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-legal {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* ========================================
+   About Cover
+   ======================================== */
+.about-cover {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(180deg, #1a2555 0%, #2e4a8a 30%, #4a68b0 50%, #a86a90 72%, #e87a8a 85%, #f0909a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.about-cover-inner {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  max-width: 900px;
+  width: 100%;
+  padding: 0 3rem;
+}
+
+.about-cover-photo {
+  flex: 0 0 200px;
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 1s cubic-bezier(0.22, 0.61, 0.36, 1),
+              transform 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.about-cover-photo.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.about-cover-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.about-cover-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.about-cover-text h1 {
+  font-family: 'Avenir', 'Avenir Next', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.about-cover-text .cover-subtitle {
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.1s,
+              transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.1s;
+}
+
+.about-cover-text p.cover-bio {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.75;
+  margin-bottom: 1rem;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.about-cover-text .text-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+@media (max-width: 768px) {
+  .about-cover-inner {
+    flex-direction: column;
+    text-align: center;
+    padding: 0 2rem;
+    gap: 1.5rem;
+  }
+
+  .about-cover-photo {
+    flex: none;
+    width: 150px;
+  }
+
+  .about-cover-text h1 {
+    font-size: 1.6rem;
+  }
+
+  .about-cover-text p.cover-bio {
+    font-size: 0.9rem;
+  }
+}
