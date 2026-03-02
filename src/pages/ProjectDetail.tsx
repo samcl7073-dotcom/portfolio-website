@@ -10,7 +10,7 @@ import {
   getFeaturedImage, getCategoryNames, formatDate, stripHtml,
 } from '../api/wordpress'
 
-const CAROUSEL_SLUGS = ['feature-test-1', 'project-feature-3']
+const CAROUSEL_SLUGS = ['buffering-please-wait-2023', 'television-writing-narrative-systems-design']
 
 export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>()
