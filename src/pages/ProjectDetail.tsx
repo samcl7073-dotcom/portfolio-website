@@ -12,6 +12,10 @@ import {
 
 const CAROUSEL_SLUGS = ['buffering-please-wait-2023', 'television-writing-narrative-systems-design', 'more-tv']
 
+const CAROUSEL_IMAGE_POSITION: Record<string, string> = {
+  'more-tv': 'center 65%',
+}
+
 export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>()
   const [project, setProject] = useState<WPPost | null>(null)
@@ -118,7 +122,12 @@ export default function ProjectDetail() {
     <PageTransition>
       {heroMode === 'carousel' && (
         <section className="project-hero-carousel" ref={coverRef}>
-          <Carousel images={images} id="project-carousel" overlay={titleOverlay} />
+          <Carousel
+            images={images}
+            id="project-carousel"
+            overlay={titleOverlay}
+            imagePosition={slug ? CAROUSEL_IMAGE_POSITION[slug] : undefined}
+          />
         </section>
       )}
 
