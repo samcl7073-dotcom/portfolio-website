@@ -12,8 +12,8 @@ import {
 
 const CAROUSEL_SLUGS = ['buffering-please-wait-2023', 'television-writing-narrative-systems-design', 'more-tv']
 
-const CAROUSEL_IMAGE_POSITION: Record<string, string> = {
-  'more-tv': 'center 65%',
+const CAROUSEL_IMAGE_POSITIONS: Record<string, Record<number, string>> = {
+  'more-tv': { 0: 'center 65%' },
 }
 
 export default function ProjectDetail() {
@@ -27,8 +27,7 @@ export default function ProjectDetail() {
   const [error, setError] = useState('')
 
   const useCarousel = slug ? CAROUSEL_SLUGS.includes(slug) : false
-  const imgPos = slug ? CAROUSEL_IMAGE_POSITION[slug] : undefined
-  const coverRef = useCoverHeader(heroMode !== 'none', imgPos)
+  const coverRef = useCoverHeader(heroMode !== 'none')
 
   useEffect(() => {
     if (!slug) return
@@ -127,7 +126,7 @@ export default function ProjectDetail() {
             images={images}
             id="project-carousel"
             overlay={titleOverlay}
-            imagePosition={slug ? CAROUSEL_IMAGE_POSITION[slug] : undefined}
+            imagePositions={slug ? CAROUSEL_IMAGE_POSITIONS[slug] : undefined}
           />
         </section>
       )}

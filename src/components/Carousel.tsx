@@ -5,10 +5,10 @@ interface CarouselProps {
   id?: string
   overlay?: React.ReactNode
   slideHeight?: string
-  imagePosition?: string
+  imagePositions?: Record<number, string>
 }
 
-export default function Carousel({ images, id = 'carousel', overlay, slideHeight, imagePosition }: CarouselProps) {
+export default function Carousel({ images, id = 'carousel', overlay, slideHeight, imagePositions }: CarouselProps) {
   const { current, handlePrev, handleNext, total } = useCarousel(images.length)
 
   if (!images.length) return null
@@ -29,7 +29,8 @@ export default function Carousel({ images, id = 'carousel', overlay, slideHeight
               <img
                 src={src}
                 alt={`Slide ${i + 1}`}
-                style={imagePosition ? { objectPosition: imagePosition } : undefined}
+                style={imagePositions?.[i] ? { objectPosition: imagePositions[i] } : undefined}
+                {...(imagePositions?.[i] ? { 'data-custom-position': '1' } : {})}
               />
             </div>
           ))}
