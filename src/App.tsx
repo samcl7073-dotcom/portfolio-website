@@ -11,6 +11,7 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import ProjectDetail from './pages/ProjectDetail'
 import BlogDetail from './pages/BlogDetail'
+import Portfolio from './pages/Portfolio'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -31,6 +32,7 @@ export default function App() {
       <AnimatePresence mode="wait" initial={false}>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />
+          <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/about" element={<About />} />

@@ -36,7 +36,7 @@ export default function Home() {
       <p className="hero-subtitle">Master's of Entertainment Technology, Carnegie Mellon University</p>
       <p className="hero-description">I design and validate interaction systems using behavioral and psychological measures.</p>
       <div className="hero-buttons">
-        <Link to="/projects" className="btn btn-primary">PORTFOLIO</Link>
+        <Link to="/portfolio" className="btn btn-primary">PORTFOLIO</Link>
         <a href="#" className="btn btn-outline">DEMO REEL</a>
       </div>
     </div>
