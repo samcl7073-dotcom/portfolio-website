@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog – Samantha C. Lai</title>
-  <link rel="stylesheet" href="../styles.css?v=2">
+  <link rel="stylesheet" href="../styles.css?v=11">
 </head>
 <body>
 
@@ -25,8 +25,11 @@
     </div>
   </header>
 
-  <!-- Hero area -->
-  <div id="blog-hero"></div>
+  <div class="cover-card cover-golden" id="blog-cover">
+    <div class="cover-card-content">
+      <h1 id="blog-cover-title">Blog</h1>
+    </div>
+  </div>
 
   <main class="project-page">
     <article class="project-article" id="blog-content">
@@ -59,6 +62,7 @@
   </footer>
 
   <script src="../api.js"></script>
+  <script src="../cover-header.js"></script>
   <script>
     document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
       document.querySelector('.main-nav').classList.toggle('open');
@@ -98,7 +102,7 @@
       '</section>';
     }
 
-    function initCarousel() {
+    function initBlogCarousel() {
       var track = document.querySelector('#blog-carousel .carousel-track');
       var slides = document.querySelectorAll('#blog-carousel .carousel-slide');
       var counter = document.querySelector('#blog-carousel .carousel-current');
@@ -161,6 +165,17 @@
       return temp.innerHTML;
     }
 
+    function replaceCoverWithHero(heroHtml) {
+      var cover = document.getElementById('blog-cover');
+      if (!cover) return;
+      var spacer = cover.nextElementSibling;
+      if (spacer && spacer.classList.contains('cover-spacer')) {
+        spacer.remove();
+      }
+      cover.insertAdjacentHTML('afterend', heroHtml);
+      cover.remove();
+    }
+
     var slug = getSlugParam();
     if (!slug) {
       document.getElementById('blog-content').innerHTML = '<p>No blog post specified.</p>';
@@ -176,7 +191,6 @@
         var categories = getCategoryNames(blog);
         var date = formatDate(blog.date);
         var content = blog.content.rendered.trim();
-
         var contentImages = extractImagesFromContent(content);
 
         getMediaForPost(blog.id).then(function(media) {
@@ -196,10 +210,15 @@
 
     function renderBlogPage(blog, date, categories, content, heroImages) {
       if (heroImages.length > 1) {
-        document.getElementById('blog-hero').innerHTML = renderCarouselHero(blog.title.rendered, date, heroImages);
-        initCarousel();
+        replaceCoverWithHero(renderCarouselHero(blog.title.rendered, date, heroImages));
+        initBlogCarousel();
+        initCoverHeader(document.querySelector('.project-hero-carousel'));
       } else if (heroImages.length === 1) {
-        document.getElementById('blog-hero').innerHTML = renderStaticHero(heroImages[0], blog.title.rendered, date);
+        replaceCoverWithHero(renderStaticHero(heroImages[0], blog.title.rendered, date));
+        initCoverHeader(document.querySelector('.project-hero-banner'));
+      } else {
+        var coverTitle = document.getElementById('blog-cover-title');
+        if (coverTitle) coverTitle.innerHTML = blog.title.rendered;
       }
 
       var hasHero = heroImages.length > 0;
