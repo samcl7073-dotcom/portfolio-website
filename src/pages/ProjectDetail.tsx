@@ -27,7 +27,8 @@ export default function ProjectDetail() {
   const [error, setError] = useState('')
 
   const useCarousel = slug ? CAROUSEL_SLUGS.includes(slug) : false
-  const coverRef = useCoverHeader(heroMode !== 'none')
+  const imgPos = slug ? CAROUSEL_IMAGE_POSITION[slug] : undefined
+  const coverRef = useCoverHeader(heroMode !== 'none', imgPos)
 
   useEffect(() => {
     if (!slug) return

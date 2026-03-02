@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react'
 
-export function useCoverHeader(enabled = true) {
+export function useCoverHeader(enabled = true, baseImagePosition?: string) {
   const coverRef = useRef<HTMLDivElement>(null)
   const spacerRef = useRef<HTMLDivElement | null>(null)
 
@@ -66,9 +66,11 @@ export function useCoverHeader(enabled = true) {
       const height = vh - (vh - minHeight) * progress
       coverEl!.style.height = height + 'px'
 
-      const imgs = coverEl!.getElementsByTagName('img')
-      for (let i = 0; i < imgs.length; i++) {
-        imgs[i].style.objectPosition = `50% ${progress * 40}%`
+      if (!baseImagePosition) {
+        const imgs = coverEl!.getElementsByTagName('img')
+        for (let i = 0; i < imgs.length; i++) {
+          imgs[i].style.objectPosition = `50% ${progress * 40}%`
+        }
       }
 
       if (contentOverlay) {
