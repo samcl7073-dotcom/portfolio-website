@@ -25,6 +25,9 @@
     </div>
   </header>
 
+  <!-- Hero area -->
+  <div id="blog-hero"></div>
+
   <main class="project-page">
     <article class="project-article" id="blog-content">
       <p class="loading-text">Loading blog post...</p>
@@ -62,6 +65,102 @@
       this.classList.toggle('active');
     });
 
+    function renderCarouselHero(title, date, images) {
+      var slides = images.map(function(src, i) {
+        return '<div class="carousel-slide"><img src="' + src + '" alt="' + title + ' – image ' + (i + 1) + '"></div>';
+      }).join('');
+
+      return '<section class="project-hero-carousel">' +
+        '<div class="carousel" id="blog-carousel">' +
+          '<div class="carousel-viewport">' +
+            '<div class="carousel-track">' + slides + '</div>' +
+          '</div>' +
+          '<div class="carousel-overlay"></div>' +
+          '<div class="carousel-title-overlay">' +
+            '<h1>' + title + '</h1>' +
+            '<div class="project-meta"><time>' + date + '</time></div>' +
+          '</div>' +
+          '<button class="carousel-arrow carousel-prev" aria-label="Previous">&#8592;</button>' +
+          '<button class="carousel-arrow carousel-next" aria-label="Next">&#8594;</button>' +
+          '<div class="carousel-counter"><span class="carousel-current">1</span> / <span class="carousel-total">' + images.length + '</span></div>' +
+        '</div>' +
+      '</section>';
+    }
+
+    function renderStaticHero(imgSrc, title, date) {
+      return '<section class="project-hero-banner">' +
+        '<img src="' + imgSrc + '" alt="' + title + '">' +
+        '<div class="carousel-overlay"></div>' +
+        '<div class="carousel-title-overlay">' +
+          '<h1>' + title + '</h1>' +
+          '<div class="project-meta"><time>' + date + '</time></div>' +
+        '</div>' +
+      '</section>';
+    }
+
+    function initCarousel() {
+      var track = document.querySelector('#blog-carousel .carousel-track');
+      var slides = document.querySelectorAll('#blog-carousel .carousel-slide');
+      var counter = document.querySelector('#blog-carousel .carousel-current');
+      var prevBtn = document.querySelector('#blog-carousel .carousel-prev');
+      var nextBtn = document.querySelector('#blog-carousel .carousel-next');
+      if (!slides.length) return;
+
+      var current = 0;
+      var interval;
+      var isAnimating = false;
+      var DELAY = 4000;
+      var total = slides.length;
+
+      function goTo(index) {
+        if (isAnimating) return;
+        isAnimating = true;
+        current = ((index % total) + total) % total;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        counter.textContent = current + 1;
+        setTimeout(function() { isAnimating = false; }, 700);
+      }
+
+      function next() { goTo(current + 1); }
+      function prev() { goTo(current - 1); }
+
+      function startAuto() {
+        clearInterval(interval);
+        interval = setInterval(next, DELAY);
+      }
+
+      prevBtn.addEventListener('click', function() { prev(); startAuto(); });
+      nextBtn.addEventListener('click', function() { next(); startAuto(); });
+
+      startAuto();
+    }
+
+    function extractImagesFromContent(htmlString) {
+      var temp = document.createElement('div');
+      temp.innerHTML = htmlString;
+      var images = [];
+      temp.querySelectorAll('img').forEach(function(img) {
+        var src = img.getAttribute('src');
+        if (src) images.push(src);
+      });
+      return images;
+    }
+
+    function stripImagesFromContent(htmlString) {
+      var temp = document.createElement('div');
+      temp.innerHTML = htmlString;
+      temp.querySelectorAll('figure').forEach(function(fig) { fig.remove(); });
+      temp.querySelectorAll('img').forEach(function(img) {
+        var parent = img.parentElement;
+        if (parent && parent.tagName === 'P' && parent.children.length === 1 && !parent.textContent.trim()) {
+          parent.remove();
+        } else {
+          img.remove();
+        }
+      });
+      return temp.innerHTML;
+    }
+
     var slug = getSlugParam();
     if (!slug) {
       document.getElementById('blog-content').innerHTML = '<p>No blog post specified.</p>';
@@ -76,31 +175,60 @@
 
         var categories = getCategoryNames(blog);
         var date = formatDate(blog.date);
+        var content = blog.content.rendered.trim();
 
-        var html = '<header class="project-header">' +
-          '<h1>' + blog.title.rendered + '</h1>' +
-          '<div class="project-meta">' +
-            '<time>' + date + '</time>' +
-            '<span class="meta-dot">•</span>' +
-          '</div>' +
-        '</header>';
+        var contentImages = extractImagesFromContent(content);
 
-        if (blog.content.rendered.trim()) {
-          html += '<div class="project-body">' + blog.content.rendered + '</div>';
-        } else if (blog.excerpt.rendered.trim()) {
-          html += '<p class="project-intro">' + stripHtml(blog.excerpt.rendered) + '</p>';
-        }
+        getMediaForPost(blog.id).then(function(media) {
+          var mediaImages = media
+            .filter(function(m) { return m.mime_type && m.mime_type.indexOf('image') === 0; })
+            .map(function(m) { return m.source_url; });
 
-        if (categories.length) {
-          html += '<div class="category-tags">' +
-            categories.map(function(c) { return '<a href="#">' + c + '</a>'; }).join('') +
-          '</div>';
-        }
-
-        document.getElementById('blog-content').innerHTML = html;
+          var heroImages = mediaImages.length ? mediaImages : contentImages;
+          renderBlogPage(blog, date, categories, content, heroImages);
+        }).catch(function() {
+          renderBlogPage(blog, date, categories, content, contentImages);
+        });
       }).catch(function() {
         document.getElementById('blog-content').innerHTML = '<p>Could not load blog post.</p>';
       });
+    }
+
+    function renderBlogPage(blog, date, categories, content, heroImages) {
+      if (heroImages.length > 1) {
+        document.getElementById('blog-hero').innerHTML = renderCarouselHero(blog.title.rendered, date, heroImages);
+        initCarousel();
+      } else if (heroImages.length === 1) {
+        document.getElementById('blog-hero').innerHTML = renderStaticHero(heroImages[0], blog.title.rendered, date);
+      }
+
+      var hasHero = heroImages.length > 0;
+      var bodyContent = hasHero ? stripImagesFromContent(content) : content;
+
+      var html = '';
+      if (!hasHero) {
+        html += '<header class="project-header">' +
+          '<h1>' + blog.title.rendered + '</h1>' +
+          '<div class="project-meta">' +
+            '<time>' + date + '</time>' +
+            '<span class="meta-dot">&bull;</span>' +
+          '</div>' +
+        '</header>';
+      }
+
+      if (bodyContent.trim()) {
+        html += '<div class="project-body">' + bodyContent + '</div>';
+      } else if (blog.excerpt.rendered.trim()) {
+        html += '<p class="project-intro">' + stripHtml(blog.excerpt.rendered) + '</p>';
+      }
+
+      if (categories.length) {
+        html += '<div class="category-tags">' +
+          categories.map(function(c) { return '<a href="#">' + c + '</a>'; }).join('') +
+        '</div>';
+      }
+
+      document.getElementById('blog-content').innerHTML = html;
     }
   </script>
 
