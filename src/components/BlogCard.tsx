@@ -23,7 +23,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
           src={img}
           alt={title}
           loading="lazy"
-          style={cropTop ? { objectPosition: 'center top' } : undefined}
+          style={cropTop ? { objectPosition: 'left top' } : undefined}
         />
       </div>
       <div className="case-card-body">
