@@ -1197,6 +1197,96 @@ ul {
 }
 
 /* ========================================
+   Portfolio – Reverse-Scrolling Columns
+   ======================================== */
+.portfolio-page {
+  background: #fff;
+  min-height: 100vh;
+}
+
+.rs-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  max-width: 80em;
+  margin: 0 auto;
+  position: relative;
+  overflow-y: hidden;
+}
+
+.rs-column {
+  display: flex;
+  flex-direction: column;
+  padding: 10vh 0;
+}
+
+.rs-column.rs-column-reverse {
+  flex-direction: column-reverse;
+  will-change: transform;
+}
+
+.rs-item {
+  display: block;
+  padding: 1em;
+  text-decoration: none;
+  color: inherit;
+}
+
+.rs-item-imgwrap {
+  overflow: hidden;
+  border-radius: 1em;
+}
+
+.rs-item-imgwrap img {
+  border-radius: 1em;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 0.75;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.rs-item:hover .rs-item-imgwrap img {
+  transform: scale(1.03);
+}
+
+.rs-item-caption {
+  text-align: center;
+  padding: 0.75em 0.5em 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  .rs-columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rs-column:nth-child(3) {
+    display: none;
+  }
+
+  .rs-column.rs-column-reverse {
+    transform: none !important;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .rs-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .rs-column {
+    flex-direction: column !important;
+    transform: none !important;
+  }
+}
+
+/* ========================================
    Content Pages (About, etc.)
    ======================================== */
 .content-page {
