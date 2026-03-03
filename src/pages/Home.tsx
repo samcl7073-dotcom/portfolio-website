@@ -37,6 +37,7 @@ export default function Home() {
       <p className="hero-description">I design and validate interaction systems using behavioral and psychological measures.</p>
       <div className="hero-buttons">
         <Link to="/portfolio" className="btn btn-primary">PORTFOLIO</Link>
+        <Link to="/about" className="btn btn-outline">CV</Link>
         <a href="#" className="btn btn-outline">DEMO REEL</a>
       </div>
     </div>
