@@ -51,6 +51,7 @@ export default function ProjectDetail() {
         }
         const children = temp.children
         for (let i = children.length - 1; i >= 0; i--) {
+          if (children[i].querySelector('iframe, img, video')) break
           const text = children[i].textContent?.trim().toLowerCase() ?? ''
           if (text === 'related work' || text === 'other film and tv projects' || text === '') {
             children[i].remove()

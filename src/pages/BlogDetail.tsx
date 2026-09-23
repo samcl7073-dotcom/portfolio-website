@@ -47,7 +47,10 @@ export default function BlogDetail() {
       }
 
       if (imgs.length) {
-        temp.querySelectorAll('figure').forEach(fig => fig.remove())
+        temp.querySelectorAll('figure').forEach(fig => {
+          // Images move into the carousel; keep video embeds in the body
+          if (fig.querySelector('img')) fig.remove()
+        })
         setImages(imgs)
         setHeroMode('carousel')
 

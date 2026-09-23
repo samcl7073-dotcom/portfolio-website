@@ -6,7 +6,10 @@ import BlogCard from '../components/BlogCard'
 import PageTransition from '../components/PageTransition'
 import { useCoverHeader } from '../hooks/useCoverHeader'
 import type { WPPost } from '../api/wordpress'
-import { getFeaturedProjects, getBlogs } from '../api/wordpress'
+import { getFeaturedProjects, getBlogs, getFrontpageContent, extractH1 } from '../api/wordpress'
+
+const FALLBACK_HERO_TITLE =
+  'Filmmaker | XR Researcher | Prototyping & Interactive Systems Designer'
 
 const HERO_IMAGES = [
   '/wp-content/uploads/2026/02/1-ScaledDown-1-691x1024.png',
@@ -23,22 +26,28 @@ const HERO_IMAGES = [
 export default function Home() {
   const [projects, setProjects] = useState<WPPost[]>([])
   const [blogs, setBlogs] = useState<WPPost[]>([])
+  const [heroTitle, setHeroTitle] = useState<string>(FALLBACK_HERO_TITLE)
   const coverRef = useCoverHeader()
 
   useEffect(() => {
     getFeaturedProjects().then(setProjects).catch(() => {})
     getBlogs().then(setBlogs).catch(() => {})
+    getFrontpageContent()
+      .then(html => {
+        const title = extractH1(html)
+        if (title) setHeroTitle(title)
+      })
+      .catch(() => {})
   }, [])
 
   const heroOverlay = (
     <div className="hero-content-overlay">
-      <h1>XR Researcher | Interactive Systems Designer | Narrative Specialist</h1>
+      <h1>{heroTitle}</h1>
       <p className="hero-subtitle">Master's of Entertainment Technology, Carnegie Mellon University</p>
       <p className="hero-description">I design and validate interaction systems using behavioral and psychological measures.</p>
       <div className="hero-buttons">
         <Link to="/portfolio" className="btn btn-primary">PORTFOLIO</Link>
         <Link to="/about" className="btn btn-outline">CV</Link>
-        <a href="#" className="btn btn-outline">DEMO REEL</a>
       </div>
     </div>
   )
@@ -51,7 +60,7 @@ export default function Home() {
 
       <section className="research-tagline">
         <h2>RESEARCH-DRIVEN SYSTEMS DESIGN</h2>
-        <p>Translating behavioral research into actionable product insights across games, XR and digital platforms.</p>
+        <p>Translating behavioral research into actionable product insights across films, games, XR and digital platforms.</p>
       </section>
 
       <section className="past-projects" id="projects">
@@ -80,7 +89,7 @@ export default function Home() {
         <p className="contact-eyebrow">Development &amp; Partnerships</p>
         <h2>GET IN TOUCH</h2>
         <p className="contact-tagline">Let's turn insight into impact.</p>
-        <a href="mailto:hello@example.com" className="btn btn-primary">CONTACT</a>
+        <Link to="/contact" className="btn btn-primary">CONTACT</Link>
       </section>
     </PageTransition>
   )
